@@ -2,12 +2,14 @@ import express from 'express';
 import fetchAndStoreEvents from './data/fetchEvents.js';
 import createEventsTable from './db/createEventsTable.js';
 import eventRoutes from './routes/eventsRoute.js'; // Import the event routes
+import cors from 'cors';
 
 const app = express();
 const PORT = process.env.PORT || 5001;
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+app.use(cors()); // Enabhow do le CORS for all routes
 
 // Create the events table
 const setupDatabase = async () => {
@@ -36,5 +38,8 @@ initializeApp()
         console.error('Error during initialization:', error);
     });
 
+app.get('/', (req, res) => {
+    res.send('Hello World');
+});
 // Set up your routes
 app.use('/events', eventRoutes); // Use the event routes
